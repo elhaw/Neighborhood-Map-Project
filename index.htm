@@ -23,8 +23,14 @@
         var marker = new google.maps.Marker({
           position: location,
           map: map,
-          animation: google.maps.Animation.DROP,
           title : 'Massachusetts Ave'
+        });
+        var infowindow = new google.maps.InfoWindow({
+          content: "display contet here"
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
         });
       }
     </script>
