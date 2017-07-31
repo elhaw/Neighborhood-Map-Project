@@ -26,7 +26,9 @@
           title : 'Massachusetts Ave'
         });
         var infowindow = new google.maps.InfoWindow({
-          content: "display contet here"
+          content: '    <a href="https://developers.google.com/maps/documentation/streetview/intro#size"> more info</a>' + '<p>some description of the photo</p>' +
+          '<img src = "https://maps.googleapis.com/maps/api/streetview?size=500x300&location=46.414382,10.013988&heading=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ">' 
+
         });
 
         marker.addListener('click', function() {
