@@ -8,35 +8,69 @@
 
 
 
-
 </head>
 <body>
+<div class="search-menu">
 
-	 <div id="map"></div>
-	 <script>
-	 function initMap() {
-      	var location = {lat: 42.360091, lng: -71.09416};
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: location,
-          zoom: 8
-        });
-        var marker = new google.maps.Marker({
-          position: location,
-          map: map,
-          title : 'Massachusetts Ave'
-        });
-        var infowindow = new google.maps.InfoWindow({
-          content: '    <a href="https://developers.google.com/maps/documentation/streetview/intro#size"> more info</a>' + '<p>some description of the photo</p>' +
-          '<img src = "https://maps.googleapis.com/maps/api/streetview?size=500x300&location=46.414382,10.013988&heading=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ">' 
+  <input type="text" data-bind="textInput: filter">
+  <ul data-bind="foreach: visibleLocations">
+    <li data-bind="text: title"></li>
+  </ul>  
 
-        });
+</div>
 
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
-      }
+<div id="map"></div>
+
+<script type="text/javascript">
+	  function ViewModel(){
+	  var self =this;
+	  this.filter = ko.observable();
+	  this.locations = ko.observableArray([
+                         {
+                            title: 'Park Ave Penthouse',
+                            location: '{lat: 41.7444883, lng: -72.9949465}'
+                        },
+                        {
+                            title: 'Chelsea Loft',
+                            location: '{lat: 46.7444883, lng: -72.9949465}'
+                        },
+                        {
+                            title: 'new Loft',
+                            location: '{lat: 40.74883, lng: -72.9949465}'
+                        }
+
+                    ]);
+
+  		this.visibleLocations = ko.computed(function(){
+
+       		return this.locations().filter(function(locations){
+           		if( !self.filter() || locations.title.indexOf(self.filter()) !== -1)
+               	return locations;
+       			});
+   		},this);  
+  
+    };
+ko.applyBindings(new ViewModel());
+</script>
+	<script type="text/javascript">
+	function initMap() {
+
+		var location = {lat: 42.360091, lng: -71.09416};
+		map = new google.maps.Map(document.getElementById('map'), {
+		center: location,
+		zoom: 8
+		});
+		var marker = new google.maps.Marker({
+		position: location,
+		map: map,
+		title : 'Massachusetts Ave'
+		      });
+       }
+	</script>
+
+    <script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ&callback=initMap"/
+       async defer> 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ&callback=initMap"
-    async defer> </script>
 </body>
 </html>
