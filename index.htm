@@ -3,18 +3,27 @@
 <head>
 	<title> Nighbour hood map </title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" src = "js/lib/jquery-3.2.1.js"></script>
-	<script type="text/javascript" src = "js/lib/knockout-3.4.2.js"></script>
+
+
+
+<script type="text/javascript" src = "js/lib/knockout-3.4.2.js"></script>
 
 
 
 </head>
 <body>
-<div class="search-menu">
+	
+<div class="search-menu ">
 
-  <input type="text" data-bind="textInput: filter">
-  <ul data-bind="foreach: visibleLocations">
-    <li data-bind="text: title"></li>
+  <nav class="navbar navbar-light bg-faded justify-content-between">
+	  <a class="navbar-brand">Find your favorite place</a>
+	  <form class="form-inline">
+	    <input class="form-control mr-sm-2" type="text" placeholder="Search" data-bind="textInput: filter">
+	  </form>
+  </nav>
+
+  <ul class="list-group" data-bind="foreach: visibleLocations">
+    <li class="list-group-item list-group-item-action" data-bind="text: title"  ></li>
   </ul>  
 
 </div>
@@ -22,21 +31,25 @@
 <div id="map"></div>
 
 <script type="text/javascript">
+	  var map,infoWindow,markers;
+
+
 	  function ViewModel(){
 	  var self =this;
 	  this.filter = ko.observable();
+
 	  this.locations = ko.observableArray([
                          {
                             title: 'Park Ave Penthouse',
-                            location: '{lat: 41.7444883, lng: -72.9949465}'
-                        },
+                            location: {lat: 41.7444883, lng: -72.3949465}
+                                                  },
                         {
                             title: 'Chelsea Loft',
-                            location: '{lat: 46.7444883, lng: -72.9949465}'
+                            location: {lat: 41.2444883, lng: -71.149465}
                         },
                         {
-                            title: 'new Loft',
-                            location: '{lat: 40.74883, lng: -72.9949465}'
+                            title: 'pynsylvania',
+                            location: {lat: 42.54883, lng: -72.0949465}
                         }
 
                     ]);
@@ -44,33 +57,55 @@
   		this.visibleLocations = ko.computed(function(){
 
        		return this.locations().filter(function(locations){
-           		if( !self.filter() || locations.title.indexOf(self.filter()) !== -1)
+           		if( !self.filter() || locations.title.toLowerCase().indexOf(self.filter()) !== -1)
                	return locations;
        			});
-   		},this);  
+       			console.log(locations);
+   		},this);
+   	
   
     };
-ko.applyBindings(new ViewModel());
+	var viewModel = new ViewModel();
+	ko.applyBindings(ViewModel);
 </script>
 	<script type="text/javascript">
-	function initMap() {
+		function initMap() {
 
 		var location = {lat: 42.360091, lng: -71.09416};
 		map = new google.maps.Map(document.getElementById('map'), {
 		center: location,
 		zoom: 8
 		});
-		var marker = new google.maps.Marker({
-		position: location,
-		map: map,
-		title : 'Massachusetts Ave'
-		      });
+	    infowindow = new google.maps.InfoWindow();
+
+	    viewModel.locations().forEach(function(place){
+		
+ 		  place.marker = new google.maps.Marker({
+  			position:place.location,
+  			map: map,
+     	  animation: google.maps.Animation.DROP,
+  			title : place.title
+		});
+ 		place.marker.addListener('click', function() {
+
+ 			infowindow.setContent('<div><strong>' + this.title + '</strong><br>' + 
+ 				'<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+this.title+'=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >'
+ 			);
+
+          	infowindow.open(map, this);
+        	});
+
+		});
+		
        }
 	</script>
 
     <script 
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ&callback=initMap"/
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ&callback=initMap"
        async defer> 
     </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    
 </body>
 </html>
