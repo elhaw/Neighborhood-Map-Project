@@ -1,11 +1,11 @@
-	  var map,infoWindow;
-	  var marker =[];
+    var map,infoWindow;
+    var marker =[];
 
-	  function ViewModel(){
-	  var self =this;
-	  this.filter = ko.observable();
+    function ViewModel(){
+    var self =this;
+    this.filter = ko.observable();
 
-	  this.locations = ko.observableArray([
+    this.locations = ko.observableArray([
                          {
                             title: 'Park Ave Penthouse',
                             location: {lat: 41.7444883, lng: -72.3949465}
@@ -21,18 +21,17 @@
 
                     ]);
 
-  		this.visibleLocations = ko.computed(function(){
+      this.visibleLocations = ko.computed(function(){
 
-       		return this.locations().filter(function(locations){
-           		if( !self.filter() || locations.title.toLowerCase().indexOf(self.filter()) !== -1)
-               	return locations;
-       			});
-       			console.log(locations);
-   		},this);
-   		this.hideMarker  = function () {
-   			
-   		}
+          return this.locations().filter(function(locations){
+              if( !self.filter() || locations.title.toLowerCase().indexOf(self.filter()) !== -1)
+                return locations;
+            });
+      },this);
+      this.hideMarker  = function () {
+        
+      };
   
-    };
-	var viewModel = new ViewModel();
-	ko.applyBindings(ViewModel);
+    }
+  var viewModel = new ViewModel();
+  ko.applyBindings(ViewModel);
