@@ -6,9 +6,12 @@
 
 
 
-<script type="text/javascript" src = "js/lib/knockout-3.4.2.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>	
+	<script type="text/javascript" src = "js/lib/knockout-3.4.2.js"></script>
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </head>
 <body>
@@ -23,7 +26,7 @@
   </nav>
 
   <ul class="list-group" data-bind="foreach: visibleLocations">
-    <li class="list-group-item list-group-item-action" data-bind="text: title"  ></li>
+    <li class="list-group-item list-group-item-action" data-bind="text: title, click: hideMarker()"  ></li>
   </ul>  
 
 </div>
@@ -31,8 +34,8 @@
 <div id="map"></div>
 
 <script type="text/javascript">
-	  var map,infoWindow,markers;
-
+	  var map,infoWindow;
+	  var marker =[];
 
 	  function ViewModel(){
 	  var self =this;
@@ -62,7 +65,9 @@
        			});
        			console.log(locations);
    		},this);
-   	
+   		this.hideMarker  = function () {
+   			
+   		}
   
     };
 	var viewModel = new ViewModel();
@@ -80,12 +85,13 @@
 
 	    viewModel.locations().forEach(function(place){
 		
- 		  place.marker = new google.maps.Marker({
-  			position:place.location,
-  			map: map,
-     	  animation: google.maps.Animation.DROP,
-  			title : place.title
+ 		place.marker = new google.maps.Marker({
+			position:place.location,
+			map: map,
+   	        animation: google.maps.Animation.DROP,
+			title : place.title
 		});
+
  		place.marker.addListener('click', function() {
 
  			infowindow.setContent('<div><strong>' + this.title + '</strong><br>' + 
@@ -101,11 +107,9 @@
 	</script>
 
     <script 
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ&callback=initMap"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ&callback=initMap"/
        async defer> 
     </script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
     
 </body>
 </html>
