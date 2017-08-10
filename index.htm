@@ -26,48 +26,15 @@
   </nav>
 
   <ul class="list-group" data-bind="foreach: visibleLocations">
-    <li class="list-group-item list-group-item-action" data-bind="text: title, click: hideMarker()"  ></li>
+    <li class="list-group-item list-group-item-action" data-bind="text: title"  ></li>
   </ul>  
 
 </div>
 
 <div id="map"></div>
 
-<script type="text/javascript" src = "js/app.js">
+<script type="text/javascript" src = "js/app.js"></script>
 
-</script>
-	<script type="text/javascript">
-		function initMap() {
-
-		var location = {lat: 42.360091, lng: -71.09416};
-		map = new google.maps.Map(document.getElementById('map'), {
-		center: location,
-		zoom: 8
-		});
-	    infowindow = new google.maps.InfoWindow();
-
-	    viewModel.locations().forEach(function(place){
-		
- 		place.marker = new google.maps.Marker({
-			position:place.location,
-			map: map,
-   	        animation: google.maps.Animation.DROP,
-			title : place.title
-		});
-
- 		place.marker.addListener('click', function() {
-
- 			infowindow.setContent('<div><strong>' + this.title + '</strong><br>' + 
- 				'<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+this.title+'=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >'
- 			);
-
-          	infowindow.open(map, this);
-        	});
-
-		});
-		
-       }
-	</script>
 
     <script 
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ&callback=initMap"/
