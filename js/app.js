@@ -12,7 +12,7 @@
                             latLng: {lat: 42.54883, lng: -72.0949465}
                         }
 
-                    ]
+                    ];
     var map,infoWindow;
     var marker =[];
 
