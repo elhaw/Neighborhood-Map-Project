@@ -34,35 +34,6 @@
   var viewModel = new ViewModel();
   ko.applyBindings(ViewModel);
 
-  function initMap() {
-
-    map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 42.360091, lng: -71.09416},
-    zoom: 8
-    });
-      infowindow = new google.maps.InfoWindow();
-
-      viewModel.forEach(function(place){
-    
-      place.marker = new google.maps.Marker({
-      position:place.latLng,
-      map: map,
-      animation: google.maps.Animation.DROP,
-      title : place.title
-    });
-
-    place.marker.addListener('click', function() {
-
-      infowindow.setContent('<div><strong>' + this.title + '</strong><br>' + 
-        '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+this.title+'=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >'
-      );
-
-            infowindow.open(map, this);
-          });
-
-    });
-    
-  }
 
   function initMap() {
 
