@@ -7,7 +7,7 @@
           {title: 'TriBeCa Artsy Bachelor Pad', latLng: {lat: 40.7195264, lng: -74.0089934}},
           {title: 'Chinatown Homey Space', latLng: {lat: 40.7180628, lng: -73.9961237}}
         ];
-    	var infoWindow,map;
+      var infoWindow,map;
 
    function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -15,26 +15,25 @@
 
     zoom: 12
     });
+    infowindow = new google.maps.InfoWindow();
     model.forEach(function(element){
-  			var position =  element.latLng;
-  			var title = element.title;
+        var position =  element.latLng;
+        var title = element.title;
             
-    	marker = new google.maps.Marker({
-		      position:position,
-		      title:title,
-		      map: map,
-		      animation: google.maps.Animation.DROP,
+      element.marker = new google.maps.Marker({
+          position:position,
+          title:title,
+          map: map,
+          animation: google.maps.Animation.DROP,
          });
-    	element.marker = marker;
-    	element.marker.addListener('click', function() {
-    			var infowindow = new google.maps.InfoWindow({
-                content: '<div><strong   class = "title">' + element.title + '</strong><br>' + 
-                 '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+element.title+'=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >'
-                       });
-                 infowindow.open(map, this);              	
+
+      element.marker.addListener('click', function() {
+          infowindow.setContent('<div><strong>' +this.title + '</strong><br>' + 
+                  '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+this.title+'=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >'
+                      );
+            infowindow.open(map, this);                
            });
-  	
-       });
+    });
 
      myViewModel = new ViewModel();
     ko.applyBindings(myViewModel)   
