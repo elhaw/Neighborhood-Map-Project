@@ -67,6 +67,8 @@
 			        item.marker.setVisible(result);
 	                return result;
 	                });
-	       }    
-		}
+	       }
+
+		});
+	};
 //loading google maps error handling 
