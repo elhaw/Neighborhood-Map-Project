@@ -36,8 +36,15 @@
                   '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+this.title+'=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >');
             infowindow.open(map, this); 
             //animate the marker when clicked
-            element.marker.setAnimation(google.maps.Animation.BOUNCE);
-     		setTimeout(function(){element.marker.setAnimation(null); }, 1500);  
+            function animateMarker () {
+            	element.marker.setAnimation(google.maps.Animation.BOUNCE);
+
+			    setTimeout(function() {
+			        element.marker.setAnimation(null)
+			    }, 3000); 
+            }
+            animateMarker();
+
 
 
         });
@@ -51,10 +58,10 @@
 
 
 	function ViewModel(){
+
 	    var self =this;
 	    this.filter = ko.observable();
-
-	    this.places = ko.observableArray(model);
+	 	this.places = ko.observableArray(model);
 	    this.visibleLocations = ko.computed(function(){
 	        var filter = self.filter();
 	        if (!filter) 
@@ -77,4 +84,12 @@
 		});
 		
 	};
+
 //loading google maps error handling 
+
+function googleError () {
+
+	alert("check your internet connection and reload the page");
+
+
+}
