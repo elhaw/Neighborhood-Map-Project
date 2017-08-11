@@ -34,7 +34,12 @@
         element.marker.addListener('click', function() {
         	infowindow.setContent('<div><strong>' +this.title + '</strong><br>' + 
                   '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location='+this.title+'=151.78&pitch=-0.76&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >');
-            infowindow.open(map, this);                
+            infowindow.open(map, this); 
+            //animate the marker when clicked
+            element.marker.setAnimation(google.maps.Animation.BOUNCE);
+     		setTimeout(function(){element.marker.setAnimation(null); }, 1500);  
+
+
         });
     });
 
@@ -70,5 +75,6 @@
 	       }
 
 		});
+		
 	};
 //loading google maps error handling 
