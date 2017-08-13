@@ -71,7 +71,7 @@
 	    self.infowindow = new google.maps.InfoWindow();
 
 	    self.marker = [];
-		    model.forEach(function(element) {
+	    model.forEach(function(element) {
 	        var position = element.latLng;
 	        var title = element.title;
 
@@ -86,7 +86,7 @@
 	            self.populateInfoWindow(this, self.infowindow, element);
 	            //animate the marker when clicked
 	        });
-	        
+
 	    });
 
 	    self.populateInfoWindow = (function(marker, infowindow, element) {
