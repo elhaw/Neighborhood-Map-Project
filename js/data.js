@@ -37,12 +37,12 @@
 
 	    },
 	    {
-	        title: 'Meaisem City Center',
+	        title: 'The Dubai Mall',
 	        latLng: {
-	            lat: 25.040082351600915,
-	            lng: 55.19767186734265
+	            lat: 25.197456518604174,
+	            lng: 55.279339821313705
 	        },
-	        foursquareId: '554b23e9498edc235f6b67a3'
+	        foursquareId: '4b0587f3f964a520cfa822e3'
 
 	    }
 
