@@ -1,58 +1,9 @@
-	//model contains required data about locations
-	var model = [
-
-	    {
-	        title: 'Park Ave Penthouse',
-	        latLng: {
-	            lat: 40.7713024,
-	            lng: -73.9632393
-	        }
-	    },
-	    {
-	        title: 'Chelsea Loft',
-	        latLng: {
-	            lat: 40.7444883,
-	            lng: -73.9949465
-	        }
-	    },
-	    {
-	        title: 'Union Square Open Floor Plan',
-	        latLng: {
-	            lat: 40.7347062,
-	            lng: -73.9895759
-	        }
-	    },
-	    {
-	        title: 'East Village Hip Studio',
-	        latLng: {
-	            lat: 40.7281777,
-	            lng: -73.984377
-	        }
-	    },
-	    {
-	        title: 'TriBeCa Artsy Bachelor Pad',
-	        latLng: {
-	            lat: 40.7195264,
-	            lng: -74.0089934
-	        }
-	    },
-	    {
-	        title: 'Chinatown Homey Space',
-	        latLng: {
-	            lat: 40.7180628,
-	            lng: -73.9961237
-	        }
-	    }
-
-	];
-	//declaring global variables 
-	var infoWindow, map;
 
 	function initMap() {
 	    //initialize the map
 	    map = new google.maps.Map(document.getElementById('map'), {
-	        center: model[3].latLng,
-	        zoom: 12
+	        center: model[1].latLng,
+	        zoom: 11
 	    });
 
 
@@ -69,12 +20,46 @@
 	    this.filter = ko.observable();
 	    this.places = ko.observableArray(model);
 	    self.infowindow = new google.maps.InfoWindow();
-
 	    self.marker = [];
+
+
+
 	    model.forEach(function(element) {
 	        var position = element.latLng;
 	        var title = element.title;
+	        var foursquareId = element.foursquareId
+	        $.ajax({
 
+	            url: 'https://api.foursquare.com/v2/venues/' + foursquareId + '?client_id=SJKSIKIDERVTXS3YVT5DYBV22CPEX5UA1TRDKMUSBM5CHYIW&client_secret=XCDPG5MXPYTER2BLUSXF3CX5RXP4J3ADS0ZXLOJBQIL2YKUN&v=20170814',
+	            success: function(data) {
+	                element.name = data.response.venue.name;
+	                element.url = data.response.venue.url;
+	                element.address = data.response.venue.location.formattedAddress;
+	                element.workingHours = data.response.venue.hours.status;
+	                element.isOpen = data.response.venue.hours.isOpen;
+	                element.rating = data.response.venue.rating;
+	            },
+
+	            error: function(jqXHR, exception) {
+	                var msg = '';
+	                if (jqXHR.status === 0) {
+	                    msg = 'Not connect.\n Verify Network.';
+	                } else if (jqXHR.status == 404) {
+	                    msg = 'Requested page not found(check your requested URL). [404] ';
+	                } else if (jqXHR.status == 500) {
+	                    msg = 'Internal Server Error [500].';
+	                } else if (exception === 'parsererror') {
+	                    msg = 'Requested JSON parse failed.';
+	                } else if (exception === 'timeout') {
+	                    msg = 'Time out error.';
+	                } else if (exception === 'abort') {
+	                    msg = 'Ajax request aborted.';
+	                } else {
+	                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+	                }
+	                alert(msg);
+	            }
+	        });
 	        element.marker = new google.maps.Marker({
 	            position: position,
 	            title: title,
@@ -87,11 +72,22 @@
 	            //animate the marker when clicked
 	        });
 
+
 	    });
 
-	    self.populateInfoWindow = (function(marker, infowindow, element) {
+	    self.populateInfoWindow = (function(marker, infowindow, element, foursquareId) {
+	        self.infowindow.setContent('<div id="iw-content">' +
 
-	        self.infowindow.setContent('<div><strong>' + element.title + '</strong><br>');
+	            '<p>' + element.name + '</p>' +
+	            '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + element.latLng.lat + ',' + element.latLng.lng + '&fov=90&heading=235&pitch=10&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >' +
+	            '<br>' + '<p>' + 'Rating : ' + element.rating + '/10' + '</p>' +
+	            '<p>' + 'Addres is : ' + element.address + '</p>' +
+	            '<p>' + 'Working hours : ' + element.workingHours + '</p>' +
+	            '<p>' + 'Is it open now : ' + element.isOpen + '</h3>' + '<br>' +
+	            '<a href="' + element.url + '">' + 'visit the web site for more info' + '</a>' +
+	            '</div>'
+
+	        );
 	        self.infowindow.open(map, marker);
 	        self.animateMarker(marker);
 
@@ -113,6 +109,7 @@
 	            return ko.utils.arrayFilter(self.places(), function(item) {
 	                // set all markers visible (false)
 	                var result = (item.title.toLowerCase().search(filter) >= 0);
+	                self.infowindow.close();
 	                item.marker.setVisible(result);
 	                return result;
 	            });
