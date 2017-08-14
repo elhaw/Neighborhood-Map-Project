@@ -5,7 +5,7 @@ A single-page application featuring a map of most famous shooping places at Duba
 
 ### Live Demo 
 
-- Visit this link : [https://elhaw.github.io/Neighborhood-Map-Project/](Live Demo)
+- Visit this link : [https://elhaw.github.io/Neighborhood-Map-Project](Live Demo)
 
 
 ### How to use this project
