@@ -8,9 +8,9 @@
 
 
 	    myViewModel = new ViewModel();
-	    ko.applyBindings(myViewModel)
+	    ko.applyBindings(myViewModel);
 
-	};
+	}
 
 
 
@@ -27,7 +27,7 @@
 	    model.forEach(function(element) {
 	        var position = element.latLng;
 	        var title = element.title;
-	        var foursquareId = element.foursquareId
+	        var foursquareId = element.foursquareId;
 	        $.ajax({
 
 	            url: 'https://api.foursquare.com/v2/venues/' + foursquareId + '?client_id=SJKSIKIDERVTXS3YVT5DYBV22CPEX5UA1TRDKMUSBM5CHYIW&client_secret=XCDPG5MXPYTER2BLUSXF3CX5RXP4J3ADS0ZXLOJBQIL2YKUN&v=20170814',
@@ -95,7 +95,7 @@
 	    self.animateMarker = (function(marker) {
 	        marker.setAnimation(google.maps.Animation.BOUNCE);
 	        setTimeout(function() {
-	            marker.setAnimation(null)
+	            marker.setAnimation(null);
 	        }, 1500);
 	    });
 	    this.visibleLocations = ko.computed(function() {
@@ -117,7 +117,7 @@
 
 	    });
 
-	};
+	}
 
 	//loading google maps error handling 
 
