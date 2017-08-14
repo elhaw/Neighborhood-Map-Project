@@ -10,7 +10,7 @@ A single-page application featuring a map of most famous shooping places at Duba
 
 ### How to use this project
 - Download / Clone this project to your machine.
-- Run `index.html` or use Live Preview in Brackets
+- Run `index.html` or use Live Preview [Live Demo](https://elhaw.github.io/Neighborhood-Map-Project)
 
 ### Tools
 
