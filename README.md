@@ -1,6 +1,6 @@
 # Neighborhood Map
 
-- Project 6 under the Full Stack Web Developer Nanodegree at Udacity
+- Project is under the front-en web development  Nanodegree at Udacity
 A single-page application featuring a map of most famous shooping places at Dubai
 
 ### Live Demo 
