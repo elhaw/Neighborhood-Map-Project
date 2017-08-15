@@ -11,6 +11,18 @@
         padding: 0;
       }
     
+     a[href='undefined']::after {
+          text-decoration: line-through;
+
+        content: 'is not available';
+        background-color: #d9edf7;
+  border-color: #bcdff1;
+  color: #31708f;
+        padding: 0.70rem 1rem,1em;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: 0.25rem;
+    }
 
      @media screen and (min-width: 700px) {
     
