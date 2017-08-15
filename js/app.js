@@ -1,3 +1,5 @@
+	     	     	     	                 	         	$("a[href$='undefined']").addClass("error");
+
 	     model.forEach(function(element) {
 	         var position = element.latLng;
 	         var title = element.title;
@@ -8,15 +10,25 @@
 	             url: 'https://api.foursquare.com/v2/venues/' + foursquareId + '?client_id=SJKSIKIDERVTXS3YVT5DYBV22CPEX5UA1TRDKMUSBM5CHYIW&client_secret=XCDPG5MXPYTER2BLUSXF3CX5RXP4J3ADS0ZXLOJBQIL2YKUN&v=20170814',
 	             success: function(data) {
 	                 element.name = data.response.venue.name ? data.response.venue.name : "property not available";
-	                 if (element.url == 'undefined') {
-	                     element.url = "Is not available";
-	                 } else {
-	                     element.url = data.response.venue.url;
+	                    element.url = data.response.venue.url;
+
+	             		
+	                     // console.log(element.url);
 	                     element.address = data.response.venue.location.formattedAddress ? data.response.venue.location.formattedAddress : "property not available";
 	                     element.workingHours = data.response.venue.hours.status ? data.response.venue.hours.status : "property not available";
 	                     element.isOpen = data.response.venue.hours.isOpen;
 	                     element.rating = data.response.venue.rating ? data.response.venue.rating : "property not available";
-	                 }
+	                      if ( element.url === undefined )
+	             		 {
+	             		 	   element.urlError = "is not a vailable ";
+							alert("website for " + element.title + element.urlError);
+							$("a[href$='undefined']").addClass("error");
+
+	             		 	
+	             		 }
+	             		 else {
+	             		 	element.url = data.response.venue.url;
+	             		 }
 
 
 	             },
@@ -41,6 +53,8 @@
 	                 alert(msg);
 	             }
 
+
+
 	         });
 	     });
 
@@ -50,7 +64,6 @@
 	             center: model[1].latLng,
 	             zoom: 11
 	         });
-
 
 	         myViewModel = new ViewModel();
 	         ko.applyBindings(myViewModel);
@@ -65,6 +78,7 @@
 	         this.filter = ko.observable();
 	         this.places = ko.observableArray(model);
 	         self.infowindow = new google.maps.InfoWindow();
+	      
 	         self.marker = [];
 
 
@@ -79,6 +93,7 @@
 	                 map: map,
 	                 animation: google.maps.Animation.DROP,
 	             });
+
 	             self.marker.push(element.marker);
 	             element.marker.addListener('click', function() {
 	                 self.populateInfoWindow(this, self.infowindow, element);
@@ -86,17 +101,16 @@
 
 
 	         });
-
 	         self.populateInfoWindow = (function(marker, infowindow, element, foursquareId) {
-
-	             var content = '<div id="iw-content">' +
+	         	
+	             var content = '<div id="info-content">' +
 	                 '<p>' + element.name + '</p>' +
 	                 '<img src="https://maps.googleapis.com/maps/api/streetview?size=300x200&location=' + element.latLng.lat + ',' + element.latLng.lng + '&fov=90&heading=235&pitch=10&key=AIzaSyCX6bSgdTWvavwA0O8B7KsObZhE5GAf6yQ" >' +
 	                 '<br>' + '<p>' + 'Rating : ' + element.rating + '/10' + '</p>' +
 	                 '<p>' + 'Addres is : ' + element.address + '</p>' +
 	                 '<p>' + 'Working hours : ' + element.workingHours + '</p>' +
 	                 '<p>' + 'Is it open now : ' + element.isOpen + '</h3>' + '<br>' +
-	                 '<a  href="' + element.url + '">' + ' web site is  ' + element.url + '</a>' +
+	                 '<a  href="' + element.url + '">'+'Link to the website </a>' +
 	                 '</div>';
 
 	             self.infowindow.setContent(content);
@@ -115,6 +129,7 @@
 	             google.maps.event.trigger(location.marker, 'click');
 
 	         });
+
 	         this.visibleLocations = ko.computed(function() {
 	             var filter = self.filter();
 	             if (!filter) {
